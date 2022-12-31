@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Дата и Время</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="fw.js" id="fwscr"></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+<div id="app">
+  <div id="settings" hidden>
+    <span id="close_set">X</span>
+    <div class="set_item" style="margin-top: 15px">
+      <span class="set_item_label">Время для сна: </span><br>
+      <label>От <select id="sleepFrom">
+        <option value="18">18:00</option>
+        <option value="19">19:00</option>
+        <option value="20">20:00</option>
+        <option value="21">21:00</option>
+        <option value="22">22:00</option>
+        <option value="23">23:00</option>
+      </select></label> <label>до <select id="sleepTo">
+        <option value="0">0:00</option>
+        <option value="1">1:00</option>
+        <option value="2">2:00</option>
+        <option value="3">3:00</option>
+        <option value="4">4:00</option>
+        <option value="5">5:00</option>
+        <option value="6">6:00</option>
+        <option value="7">7:00</option>
+        <option value="8">8:00</option>
+        <option value="9">9:00</option>
+      </select></label><br>
+      <span id="SleepAlert"></span>
+    </div>
+    <div class="set_item">
+      <span class="set_item_label">Выходные дни:</span><br>
+      <label><input type="checkbox" value="1" name="1"> ПН</label>
+      <label><input type="checkbox" value="2" name="1"> ВТ</label>
+      <label><input type="checkbox" value="3" name="1"> СР</label>
+      <label><input type="checkbox" value="4" name="1"> ЧТ</label>
+      <label><input type="checkbox" value="5" name="1"> ПТ</label>
+      <label><input type="checkbox" value="6" name="1"> СБ</label>
+      <label><input type="checkbox" value="0" name="1"> ВС</label>
+    </div>
+    <div class="set_item">
+      <span class="set_item_label">Тема:
+        <label><input type="radio" value="0" name="0"> Темная</label>
+        <label><input type="radio" value="1" name="0"> Светлая</label>
+      </span>
+    </div>
+    <!-- Я хз что сюда ещё можно добавить :) -->
+  </div>
+  <ul id="pages">
+    <li class="chose" mode="0">Дата и Время</li>
+    <li mode="1">Таймер</li>
+    <li mode="2">Секундомер</li>
+    <li mode="3" id="happyny">НГ</li>
+  </ul>
+  <div id="app_dt" class="container">
+    <h1>Сегодня</h1>
+    <div id="today"></div>
+    <div id="is_weekend"></div>
+    <div id="time"></div>
+    <div id="beforeSleep"></div>
+  </div>
+  <div id="app_timer" class="container" hidden>
+    <h1>Таймер</h1>
+    <div id="timer_set">
+      <select id="timer_m"></select>:<select id="timer_s"></select>
+      <button id="timer_start">Старт</button>
+      <button id="timer_stop" hidden>Стоп</button>
+    </div>
+    <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <g class="base-timer__circle">
+        <circle id="timer_over" class="base-timer__path-elapsed" cx="62" cy="56" r="45" />
+        <path
+          id="timer_left_path"
+          stroke-dasharray="283 283"
+          class="base-timer__path-remaining"
+          d="
+            M 43.5, 50.5
+            m -45, 0
+            a 45,45 0 1,0 90,0
+            a 45,45 0 1,0 -90,0
+          "
+        ></path>
+        <text id="timer_left" x="32" y="50">00:00</text>
+      </g>
+    </svg>
+  </div>
+  <div id="app_sw" class="container" hidden>
+    <h1>Секундомер</h1>
+    <button id="stopwatch_toggle">Старт</button>
+    <svg id="stopwatch" class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <g class="base-timer__circle">
+        <circle class="base-timer__path-elapsed" cx="62" cy="56" r="45" />
+        <path
+          id="stopwatch_left_path"
+          stroke-dasharray="0 283"
+          class="base-timer__path-remaining"
+          d="
+            M 43.5, 50.5
+            m -45, 0
+            a 45,45 0 1,0 90,0
+            a 45,45 0 1,0 -90,0
+          "
+        ></path>
+        <text id="stopwatch_left" x="32" y="50">00:00</text>
+      </g>
+    </svg>
+  </div>
+  <div id="app_ny" class="container" hidden>
+    <h1 id="nyNote"></h1>
+    <div id="newyear_left"></div>
+    <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <g class="base-timer__circle">
+        <circle class="base-timer__path-elapsed" cx="62" cy="56" r="45" />
+        <path
+          id="newyear_left_path"
+          stroke-dasharray="283 283"
+          class="base-timer__path-remaining"
+          d="
+            M 43.5, 50.5
+            m -45, 0
+            a 45,45 0 1,0 90,0
+            a 45,45 0 1,0 -90,0
+          "
+        ></path>
+        <text id="newyear_now" x="33" y="50">2020</text>
+      </g>
+    </svg>
+  </div>
+  <span id="settings_btn">Настройки</span>
+</div>
+<style id="variables">
+:root {
+  --checkedColor: #565656;
+  --selectBG: #7D7D7D;
+  --buttonBG: #686868;
+  --buttonBorder: #808080;
+  --settingsBtnBG: #474747;
+  --settingsBtnBorder: #626262;
+  --settingsBG: #1E1E1E;
+  --settingsBorder: #9D9D9D;
+  --settingsCloseBG: #717171;
+  --settingsCloseBorder: #9D9D9D;
+}
+</body>
+</html>
